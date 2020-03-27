@@ -26,6 +26,15 @@ public class LabeledEdge extends DefaultEdge {
         return label;
     }
 
+    @Override
+    public Object getSource() {
+        return super.getSource();
+    }
+
+    @Override
+    public Object getTarget() {
+        return super.getTarget();
+    }
 
     @Override
     public boolean equals(Object o) {

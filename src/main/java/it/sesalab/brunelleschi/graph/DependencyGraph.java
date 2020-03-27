@@ -30,6 +30,8 @@ public abstract class DependencyGraph {
 
     public abstract Map<PsiClass, List<PsiClass>> adjacencyList();
 
+    public abstract Set<Set<PsiClass>> getCycles();
+
     protected Set<PsiPackage> allProjectJavaPackages() {
         final Set<PsiPackage> foundPackages = new HashSet<>();
 
@@ -50,4 +52,5 @@ public abstract class DependencyGraph {
         });
         return foundPackages;
     }
+
 }

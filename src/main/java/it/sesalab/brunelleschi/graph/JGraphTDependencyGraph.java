@@ -9,11 +9,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
+import org.jgrapht.alg.cycle.PatonCycleBase;
+import org.jgrapht.alg.interfaces.CycleBasisAlgorithm;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
@@ -64,5 +64,21 @@ public class JGraphTDependencyGraph extends DependencyGraph {
             adjacencyList.put(node, Graphs.neighborListOf(projectGraph,node));
         }
         return adjacencyList;
+    }
+
+    @Override
+    public Set<Set<PsiClass>> getCycles() {
+        PatonCycleBase<PsiClass, LabeledEdge> patonCycleBase = new PatonCycleBase<>(this.projectGraph);
+        CycleBasisAlgorithm.CycleBasis<PsiClass, LabeledEdge> cycleBasis = patonCycleBase.getCycleBasis();
+        Set<Set<PsiClass>> result = new HashSet<>();
+        for(List<LabeledEdge> edgeList: cycleBasis.getCycles()){
+            Set<PsiClass> cycleClasses = new HashSet<>();
+            for(LabeledEdge edge: edgeList){
+                cycleClasses.add((PsiClass) edge.getSource());
+                cycleClasses.add((PsiClass) edge.getTarget());
+            }
+            result.add(cycleClasses);
+        }
+        return result;
     }
 }
