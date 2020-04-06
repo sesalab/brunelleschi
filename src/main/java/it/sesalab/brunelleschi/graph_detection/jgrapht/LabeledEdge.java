@@ -1,8 +1,6 @@
-package it.sesalab.brunelleschi.graph;
+package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import org.jgrapht.graph.DefaultEdge;
-
-import java.util.Objects;
 
 public class LabeledEdge extends DefaultEdge {
     private String label;

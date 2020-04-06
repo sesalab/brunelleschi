@@ -6,10 +6,13 @@ plugins {
 group 'it.sesalab'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
-
 repositories {
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
@@ -26,7 +29,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core
     compile group: 'org.jgrapht', name: 'jgrapht-core', version: '1.3.1'
-
 
 }
 

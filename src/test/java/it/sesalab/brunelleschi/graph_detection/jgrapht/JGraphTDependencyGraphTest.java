@@ -1,8 +1,10 @@
-package it.sesalab.brunelleschi.graph;
+package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 
 import com.intellij.psi.PsiClass;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
+import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
+import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 import org.apache.log4j.Logger;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
@@ -48,15 +50,17 @@ public class JGraphTDependencyGraphTest extends LightJavaCodeInsightFixtureTestC
         PsiClass classA = myFixture.findClass("graph.A");
         PsiClass classB = myFixture.findClass("graph.B");
 
-        Graph<PsiClass,LabeledEdge> oracleGraph = new DefaultDirectedGraph<>(LabeledEdge.class);
+        Graph<PsiClass, LabeledEdge> oracleGraph = new DefaultDirectedGraph<>(LabeledEdge.class);
         oracleGraph.addVertex(classA);
         oracleGraph.addVertex(classB);
         oracleGraph.addEdge(classB,classA,new LabeledEdge("dependency"));
 
-        JGraphTDependencyGraph dependencyGraph = new JGraphTDependencyGraph(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        assertEquals(oracleGraph, dependencyGraph.getProjectGraph());
+        assertEquals(oracleGraph, ((JGraphTPsiClassDependencyGraph) dependencyGraph).getProjectGraph());
     }
+
 
     public void testGraphAreDifferentWithDifferentNumberOfVertex() {
         PsiClass classA = myFixture.findClass("graph.A");
@@ -64,9 +68,10 @@ public class JGraphTDependencyGraphTest extends LightJavaCodeInsightFixtureTestC
         Graph<PsiClass,LabeledEdge> oracleGraph = new SimpleDirectedGraph<>(LabeledEdge.class);
         oracleGraph.addVertex(classA);
 
-        JGraphTDependencyGraph dependencyGraph = new JGraphTDependencyGraph(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        assertFalse(dependencyGraph.getProjectGraph().equals(oracleGraph));
+        assertFalse(oracleGraph.equals(((JGraphTPsiClassDependencyGraph) dependencyGraph).getProjectGraph()));
     }
 
     public void testGraphAreDifferentWithInvertedEdges() {
@@ -78,10 +83,12 @@ public class JGraphTDependencyGraphTest extends LightJavaCodeInsightFixtureTestC
         oracleGraph.addVertex(classB);
         oracleGraph.addEdge(classA,classB,new LabeledEdge("dependency"));
 
-        JGraphTDependencyGraph dependencyGraph = new JGraphTDependencyGraph(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        assertFalse(dependencyGraph.getProjectGraph().equals(oracleGraph));
+        assertFalse(oracleGraph.equals(((JGraphTPsiClassDependencyGraph) dependencyGraph).getProjectGraph()));
     }
+
 
     public void testThreeItemsGraph() {
         myFixture.copyFileToProject("graph/C.java");
@@ -99,9 +106,10 @@ public class JGraphTDependencyGraphTest extends LightJavaCodeInsightFixtureTestC
         oracleGraph.addEdge(classC,classA,new LabeledEdge("dependency"));
         oracleGraph.addEdge(classC,classB,new LabeledEdge("dependency"));
 
-        JGraphTDependencyGraph dependencyGraph = new JGraphTDependencyGraph(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        assertEquals(oracleGraph,dependencyGraph.getProjectGraph());
+        assertEquals(oracleGraph, ((JGraphTPsiClassDependencyGraph) dependencyGraph).getProjectGraph());
     }
 
     public void testExtendsRelation() {
@@ -119,28 +127,9 @@ public class JGraphTDependencyGraphTest extends LightJavaCodeInsightFixtureTestC
         oracleGraph.addEdge(classB,classA,new LabeledEdge("dependency"));
         oracleGraph.addEdge(classBChild,classB,new LabeledEdge("extends"));
 
-        JGraphTDependencyGraph dependencyGraph = new JGraphTDependencyGraph(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        assertEquals(oracleGraph,dependencyGraph.getProjectGraph());
-    }
-
-    public void testGraphEquals() {
-        Graph<Integer, DefaultEdge> oracle = new DefaultUndirectedGraph<>(LabeledEdge.class);
-        Integer one = 1;
-        Integer two = 2;
-
-        oracle.addVertex(one);
-        oracle.addVertex(two);
-        oracle.addEdge(one,two, new LabeledEdge("dependency"));
-
-        Graph<Integer, DefaultEdge> testGraph = new DefaultUndirectedGraph<>(LabeledEdge.class);
-        testGraph.addVertex(one);
-        testGraph.addVertex(two);
-        testGraph.addEdge(one,two, new LabeledEdge("dependency"));
-
-        assertEquals(oracle.vertexSet(),testGraph.vertexSet());
-        assertEquals(oracle.edgeSet(),testGraph.edgeSet());
-        assertEquals(testGraph, oracle);
-
+        assertEquals(oracleGraph, ((JGraphTPsiClassDependencyGraph) dependencyGraph).getProjectGraph());
     }
 }
