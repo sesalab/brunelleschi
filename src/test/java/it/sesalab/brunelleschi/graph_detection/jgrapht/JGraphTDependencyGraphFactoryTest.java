@@ -14,7 +14,7 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 
 import java.io.File;
 
-public class JGraphTDependencyGraphTest extends LightJavaCodeInsightFixtureTestCase {
+public class JGraphTDependencyGraphFactoryTest extends LightJavaCodeInsightFixtureTestCase {
 
     Logger log = Logger.getLogger(this.getClass());
 

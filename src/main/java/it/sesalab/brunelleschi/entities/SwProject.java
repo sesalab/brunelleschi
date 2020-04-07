@@ -1,5 +1,7 @@
 package it.sesalab.brunelleschi.entities;
 
+import it.sesalab.brunelleschi.entities.detectors.SmellDetector;
+
 import java.util.ArrayList;
 import java.util.List;
 
