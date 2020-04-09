@@ -11,6 +11,7 @@ import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 import lombok.RequiredArgsConstructor;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.builder.GraphBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,28 +23,25 @@ public class JGraphTPsiClassDependencyGraphFactory  extends DependencyGraphFacto
     protected static final String EXTENDS_LABEL = "extends";
 
     private final Project currentProject;
+    private GraphBuilder<PsiClass, LabeledEdge, ? extends DefaultDirectedGraph<PsiClass, LabeledEdge>> graphBuilder;
 
     @Override
     public DependencyGraph makeDependencyGraph() {
-        Graph<PsiClass,LabeledEdge> projectGraph = new DefaultDirectedGraph<>(LabeledEdge.class);
+        graphBuilder = DefaultDirectedGraph.createBuilder(LabeledEdge.class);
         for (PsiPackage aPackage : allProjectJavaPackages()) {
             for (PsiClass currentClass : aPackage.getClasses()) {
-                addClassToGraph(currentClass, projectGraph);
-                addDependenciesOf(currentClass, projectGraph);
+                graphBuilder.addVertex(currentClass);
+                addDependenciesOf(currentClass);
             }
         }
-        return new JGraphTPsiClassDependencyGraph(projectGraph);
+        return new JGraphTPsiClassDependencyGraph(false, graphBuilder.build());
     }
 
-    protected void addClassToGraph(PsiClass currentClass, Graph<PsiClass,LabeledEdge> projectGraph) {
-        projectGraph.addVertex(currentClass);
-    }
-
-    protected void addDependenciesOf(PsiClass currentClass,  Graph<PsiClass,LabeledEdge> projectGraph) {
+    protected void addDependenciesOf(PsiClass currentClass) {
         Query<PsiReference> search = ReferencesSearch.search(currentClass);
         for (PsiReference ref : search.findAll()) {
             PsiClass dependentClass = PsiTreeUtil.getParentOfType(ref.getElement(), PsiClass.class);
-            addClassToGraph(dependentClass, projectGraph);
+            graphBuilder.addVertex(dependentClass);
 
             LabeledEdge edge;
             if(dependentClass.getSuperClass() != null && dependentClass.getSuperClass().equals(currentClass)){
@@ -51,7 +49,7 @@ public class JGraphTPsiClassDependencyGraphFactory  extends DependencyGraphFacto
             } else {
                 edge = new LabeledEdge(DEPENDENCY_LABEL);
             }
-            projectGraph.addEdge(dependentClass, currentClass , edge);
+            graphBuilder.addEdge(dependentClass, currentClass, edge);
 
         }
     }

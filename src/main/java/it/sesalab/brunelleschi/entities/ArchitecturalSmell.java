@@ -1,19 +1,19 @@
 package it.sesalab.brunelleschi.entities;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Getter
+@EqualsAndHashCode
 public class ArchitecturalSmell {
     protected final SmellType smellType;
-    protected final List<SwComponent> affectedComponents;
+    protected final Set<SwComponent> affectedComponents;
 
     public ArchitecturalSmell(SmellType smellType) {
         this.smellType = smellType;
-        this.affectedComponents = new ArrayList<>();
+        this.affectedComponents = new HashSet<>();
     }
 
     public void addAffectedComponent(SwComponent component){

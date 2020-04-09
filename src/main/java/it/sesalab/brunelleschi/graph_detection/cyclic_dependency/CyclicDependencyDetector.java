@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 public class CyclicDependencyDetector implements SmellDetector {
@@ -18,7 +19,7 @@ public class CyclicDependencyDetector implements SmellDetector {
     @Override
     public List<? extends ArchitecturalSmell> detectSmells() {
         List<ArchitecturalSmell> result = new ArrayList<>();
-        for (List<SwComponent> cycle : dependencyGraph.getCycles()){
+        for (Set<SwComponent> cycle : dependencyGraph.getCycles()){
             ArchitecturalSmell smell = new ArchitecturalSmell(SmellType.CYCLIC_DEPENDENCY);
             smell.addAffectedComponents(cycle);
             result.add(smell);

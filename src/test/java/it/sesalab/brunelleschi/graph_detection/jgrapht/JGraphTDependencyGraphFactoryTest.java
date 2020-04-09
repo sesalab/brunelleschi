@@ -8,8 +8,6 @@ import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 import org.apache.log4j.Logger;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultUndirectedGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import java.io.File;
