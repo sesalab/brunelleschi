@@ -1,13 +1,14 @@
 package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
-import it.sesalab.brunelleschi.entities.ComponentType;
-import it.sesalab.brunelleschi.entities.SwComponent;
+import it.sesalab.brunelleschi.core.ComponentType;
+import it.sesalab.brunelleschi.core.SwComponent;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 
 import java.io.File;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixtureTestCase {
@@ -100,5 +101,18 @@ public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixt
 
         assertEquals(expectedNofCycles, detectedCycles.size());
 
+    }
+
+    public void testAbstractionsDependenciesMap() {
+        myFixture.configureByFiles( "hublike/A.java","hublike/B.java","hublike/Abstract.java");
+
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        DependencyGraph dependencyGraph = factory.makeDependencyGraph();
+
+        SwComponent oracleAbstractClass = new SwComponent("hublike.Abstract", ComponentType.CLASS);
+        Map<SwComponent,Integer> oracle = Map.of(oracleAbstractClass,2);
+
+
+        assertEquals(oracle, dependencyGraph.abstractionsDependenciesMap());
     }
 }

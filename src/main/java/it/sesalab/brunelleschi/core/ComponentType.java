@@ -1,4 +1,4 @@
-package it.sesalab.brunelleschi.entities;
+package it.sesalab.brunelleschi.core;
 
 public enum ComponentType {
     CLASS,

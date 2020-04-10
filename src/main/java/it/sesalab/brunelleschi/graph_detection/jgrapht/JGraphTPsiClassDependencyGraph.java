@@ -1,16 +1,18 @@
 package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import com.intellij.psi.PsiClass;
-import it.sesalab.brunelleschi.entities.ComponentType;
-import it.sesalab.brunelleschi.entities.SwComponent;
+import com.intellij.psi.PsiModifier;
+import it.sesalab.brunelleschi.core.ComponentType;
+import it.sesalab.brunelleschi.core.SwComponent;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.cycle.DirectedSimpleCycles;
 import org.jgrapht.alg.cycle.TarjanSimpleCycles;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,5 +44,17 @@ public class JGraphTPsiClassDependencyGraph extends DependencyGraph {
     @Override
     public int nOfEdges() {
         return this.projectGraph.edgeSet().size();
+    }
+
+    @Override
+    public Map<SwComponent, Integer> abstractionsDependenciesMap() {
+        Map<SwComponent, Integer> result = new HashMap<>();
+        for(PsiClass vertex: this.projectGraph.vertexSet()){
+            if(vertex.isInterface() || vertex.hasModifierProperty(PsiModifier.ABSTRACT)){
+                SwComponent component = new SwComponent(vertex.getQualifiedName(),ComponentType.CLASS);
+                result.put(component, this.projectGraph.degreeOf(vertex));
+            }
+        }
+        return result;
     }
 }

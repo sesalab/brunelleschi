@@ -1,10 +1,11 @@
 package it.sesalab.brunelleschi.graph_detection.cyclic_dependency;
 
-import it.sesalab.brunelleschi.entities.ComponentType;
-import it.sesalab.brunelleschi.entities.SwComponent;
+import it.sesalab.brunelleschi.core.ComponentType;
+import it.sesalab.brunelleschi.core.SwComponent;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 public class FakeClassDependencyGraph extends DependencyGraph {
@@ -35,5 +36,10 @@ public class FakeClassDependencyGraph extends DependencyGraph {
     @Override
     public int nOfEdges() {
         return 2;
+    }
+
+    @Override
+    public Map<SwComponent, Integer> abstractionsDependenciesMap() {
+        return Collections.emptyMap();
     }
 }

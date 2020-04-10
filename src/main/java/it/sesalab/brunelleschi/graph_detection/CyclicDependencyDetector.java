@@ -1,9 +1,9 @@
-package it.sesalab.brunelleschi.graph_detection.cyclic_dependency;
+package it.sesalab.brunelleschi.graph_detection;
 
-import it.sesalab.brunelleschi.entities.ArchitecturalSmell;
-import it.sesalab.brunelleschi.entities.detectors.SmellDetector;
-import it.sesalab.brunelleschi.entities.SmellType;
-import it.sesalab.brunelleschi.entities.SwComponent;
+import it.sesalab.brunelleschi.core.ArchitecturalSmell;
+import it.sesalab.brunelleschi.core.SmellDetector;
+import it.sesalab.brunelleschi.core.SmellType;
+import it.sesalab.brunelleschi.core.SwComponent;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import lombok.RequiredArgsConstructor;
 

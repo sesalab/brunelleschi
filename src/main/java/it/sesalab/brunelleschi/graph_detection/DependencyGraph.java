@@ -1,7 +1,8 @@
 package it.sesalab.brunelleschi.graph_detection;
 
-import it.sesalab.brunelleschi.entities.SwComponent;
+import it.sesalab.brunelleschi.core.SwComponent;
 
+import java.util.Map;
 import java.util.Set;
 
 public abstract class DependencyGraph {
@@ -21,5 +22,7 @@ public abstract class DependencyGraph {
     public abstract int nOfVertices();
 
     public abstract int nOfEdges();
+
+    public abstract Map<SwComponent, Integer> abstractionsDependenciesMap();
 
 }
