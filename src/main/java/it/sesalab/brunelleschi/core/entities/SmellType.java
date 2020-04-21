@@ -1,4 +1,4 @@
-package it.sesalab.brunelleschi.core;
+package it.sesalab.brunelleschi.core.entities;
 
 public enum SmellType {
     CYCLIC_DEPENDENCY,

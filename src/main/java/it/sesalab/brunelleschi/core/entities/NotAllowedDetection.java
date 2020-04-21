@@ -1,4 +1,4 @@
-package it.sesalab.brunelleschi.core;
+package it.sesalab.brunelleschi.core.entities;
 
 public class NotAllowedDetection extends Exception {
 

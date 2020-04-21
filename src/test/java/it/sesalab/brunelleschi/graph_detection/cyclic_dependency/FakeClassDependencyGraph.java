@@ -1,7 +1,7 @@
 package it.sesalab.brunelleschi.graph_detection.cyclic_dependency;
 
-import it.sesalab.brunelleschi.core.ComponentType;
-import it.sesalab.brunelleschi.core.SwComponent;
+import it.sesalab.brunelleschi.core.entities.ComponentType;
+import it.sesalab.brunelleschi.core.entities.SwComponent;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 
 import java.util.Collections;

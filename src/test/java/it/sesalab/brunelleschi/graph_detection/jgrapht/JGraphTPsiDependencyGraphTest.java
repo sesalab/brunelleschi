@@ -1,8 +1,8 @@
 package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
-import it.sesalab.brunelleschi.core.ComponentType;
-import it.sesalab.brunelleschi.core.SwComponent;
+import it.sesalab.brunelleschi.core.entities.ComponentType;
+import it.sesalab.brunelleschi.core.entities.SwComponent;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixtureTestCase {
+public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTestCase {
 
     @Override
     protected String getTestDataPath() {
@@ -36,7 +36,8 @@ public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixt
         tinyCycle.add(new SwComponent("cycles.tiny.B", ComponentType.CLASS));
         oracle.add(tinyCycle);
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
         assertEquals(oracle, tinyCycleGraph.getCycles());
@@ -52,7 +53,8 @@ public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixt
         cycle.add(new SwComponent("cycles.simple.C", ComponentType.CLASS));
         oracle.add(cycle);
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
         assertEquals(oracle, tinyCycleGraph.getCycles());
@@ -80,7 +82,8 @@ public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixt
         tinyCycle.add(new SwComponent("cycles.tiny.B", ComponentType.CLASS));
         oracle.add(tinyCycle);
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
         Set<Set<SwComponent>> detectedCycles = tinyCycleGraph.getCycles();
@@ -91,7 +94,8 @@ public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixt
     public void testClique() {
         myFixture.configureByFiles( "cycles/clique/A.java","cycles/clique/B.java","cycles/clique/C.java");
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         Set<Set<SwComponent>> detectedCycles = dependencyGraph.getCycles();
@@ -106,7 +110,8 @@ public class JGraphTPsiClassDependencyGraphTest extends LightJavaCodeInsightFixt
     public void testAbstractionsDependenciesMap() {
         myFixture.configureByFiles( "hublike/A.java","hublike/B.java","hublike/Abstract.java");
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
+        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         SwComponent oracleAbstractClass = new SwComponent("hublike.Abstract", ComponentType.CLASS);

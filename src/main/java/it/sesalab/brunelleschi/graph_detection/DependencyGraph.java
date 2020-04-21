@@ -1,6 +1,6 @@
 package it.sesalab.brunelleschi.graph_detection;
 
-import it.sesalab.brunelleschi.core.SwComponent;
+import it.sesalab.brunelleschi.core.entities.SwComponent;
 
 import java.util.Map;
 import java.util.Set;

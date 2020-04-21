@@ -1,4 +1,4 @@
-package it.sesalab.brunelleschi.usecases;
+package it.sesalab.brunelleschi.core.usecases;
 
 import lombok.RequiredArgsConstructor;
 

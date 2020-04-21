@@ -1,6 +1,6 @@
 package it.sesalab.brunelleschi.graph_detection;
 
-import it.sesalab.brunelleschi.core.*;
+import it.sesalab.brunelleschi.core.entities.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
@@ -12,7 +12,7 @@ public class HubLikeDependencyDetector implements SmellDetector {
     private final Integer threshold;
 
     @Override
-    public List<? extends ArchitecturalSmell> detectSmells() throws NotAllowedDetection {
+    public List<ArchitecturalSmell> detectSmells() throws NotAllowedDetection {
         if(dependencyGraph.isPackageGraph()){
             throw new NotAllowedDetection("Hub-Like Dependency detection not allowed on package graph");
         }

@@ -1,7 +1,7 @@
 package it.sesalab.brunelleschi.graph_detection.cyclic_dependency;
 
-import it.sesalab.brunelleschi.core.ArchitecturalSmell;
-import it.sesalab.brunelleschi.core.SmellType;
+import it.sesalab.brunelleschi.core.entities.ArchitecturalSmell;
+import it.sesalab.brunelleschi.core.entities.SmellType;
 import it.sesalab.brunelleschi.graph_detection.CyclicDependencyDetector;
 import org.junit.Test;
 
