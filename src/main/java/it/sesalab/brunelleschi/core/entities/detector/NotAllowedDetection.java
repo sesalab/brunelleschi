@@ -1,6 +1,6 @@
-package it.sesalab.brunelleschi.core.entities;
+package it.sesalab.brunelleschi.core.entities.detector;
 
-public class NotAllowedDetection extends Exception {
+public class NotAllowedDetection extends RuntimeException {
 
     public NotAllowedDetection() {
         this("Detection Operation not allowed");

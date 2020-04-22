@@ -2,7 +2,7 @@ package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 import it.sesalab.brunelleschi.core.entities.ComponentType;
-import it.sesalab.brunelleschi.core.entities.SwComponent;
+import it.sesalab.brunelleschi.core.entities.Component;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 
@@ -30,10 +30,10 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
     public void testTinyCycleDetection() {
         myFixture.configureByFiles( "cycles/tiny/A.java","cycles/tiny/B.java");
 
-        Set<SwComponent> tinyCycle = new HashSet<>();
-        Set<Set<SwComponent>> oracle = new HashSet<>();
-        tinyCycle.add(new SwComponent("cycles.tiny.A", ComponentType.CLASS));
-        tinyCycle.add(new SwComponent("cycles.tiny.B", ComponentType.CLASS));
+        Set<Component> tinyCycle = new HashSet<>();
+        Set<Set<Component>> oracle = new HashSet<>();
+        tinyCycle.add(new Component("cycles.tiny.A", ComponentType.CLASS));
+        tinyCycle.add(new Component("cycles.tiny.B", ComponentType.CLASS));
         oracle.add(tinyCycle);
 
         PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
@@ -46,11 +46,11 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
     public void testSimpleCycleDetection() {
         myFixture.configureByFiles( "cycles/simple/A.java","cycles/simple/B.java","cycles/simple/C.java");
 
-        Set<SwComponent> cycle = new HashSet<>();
-        Set<Set<SwComponent>> oracle = new HashSet<>();
-        cycle.add(new SwComponent("cycles.simple.A", ComponentType.CLASS));
-        cycle.add(new SwComponent("cycles.simple.B", ComponentType.CLASS));
-        cycle.add(new SwComponent("cycles.simple.C", ComponentType.CLASS));
+        Set<Component> cycle = new HashSet<>();
+        Set<Set<Component>> oracle = new HashSet<>();
+        cycle.add(new Component("cycles.simple.A", ComponentType.CLASS));
+        cycle.add(new Component("cycles.simple.B", ComponentType.CLASS));
+        cycle.add(new Component("cycles.simple.C", ComponentType.CLASS));
         oracle.add(cycle);
 
         PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
@@ -69,24 +69,24 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
                 "cycles/tiny/A.java",
                 "cycles/tiny/B.java");
 
-        Set<Set<SwComponent>> oracle = new HashSet<>();
+        Set<Set<Component>> oracle = new HashSet<>();
 
-        Set<SwComponent> simpleCycle = new HashSet<>();
-        simpleCycle.add(new SwComponent("cycles.simple.A", ComponentType.CLASS));
-        simpleCycle.add(new SwComponent("cycles.simple.B", ComponentType.CLASS));
-        simpleCycle.add(new SwComponent("cycles.simple.C", ComponentType.CLASS));
+        Set<Component> simpleCycle = new HashSet<>();
+        simpleCycle.add(new Component("cycles.simple.A", ComponentType.CLASS));
+        simpleCycle.add(new Component("cycles.simple.B", ComponentType.CLASS));
+        simpleCycle.add(new Component("cycles.simple.C", ComponentType.CLASS));
         oracle.add(simpleCycle);
 
-        Set<SwComponent> tinyCycle = new HashSet<>();
-        tinyCycle.add(new SwComponent("cycles.tiny.A", ComponentType.CLASS));
-        tinyCycle.add(new SwComponent("cycles.tiny.B", ComponentType.CLASS));
+        Set<Component> tinyCycle = new HashSet<>();
+        tinyCycle.add(new Component("cycles.tiny.A", ComponentType.CLASS));
+        tinyCycle.add(new Component("cycles.tiny.B", ComponentType.CLASS));
         oracle.add(tinyCycle);
 
         PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
-        Set<Set<SwComponent>> detectedCycles = tinyCycleGraph.getCycles();
+        Set<Set<Component>> detectedCycles = tinyCycleGraph.getCycles();
         assertEquals(oracle, detectedCycles);
 
     }
@@ -98,7 +98,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        Set<Set<SwComponent>> detectedCycles = dependencyGraph.getCycles();
+        Set<Set<Component>> detectedCycles = dependencyGraph.getCycles();
 
         int numberOfVertices = dependencyGraph.nOfVertices();
         int expectedNofCycles = (int) Math.pow(2,numberOfVertices) - (1 + numberOfVertices);
@@ -114,8 +114,8 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        SwComponent oracleAbstractClass = new SwComponent("hublike.Abstract", ComponentType.CLASS);
-        Map<SwComponent,Integer> oracle = Map.of(oracleAbstractClass,2);
+        Component oracleAbstractClass = new Component("hublike.Abstract", ComponentType.CLASS);
+        Map<Component,Integer> oracle = Map.of(oracleAbstractClass,2);
 
 
         assertEquals(oracle, dependencyGraph.abstractionsDependenciesMap());

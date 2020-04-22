@@ -1,7 +1,7 @@
 package it.sesalab.brunelleschi.graph_detection.cyclic_dependency;
 
 import it.sesalab.brunelleschi.core.entities.ComponentType;
-import it.sesalab.brunelleschi.core.entities.SwComponent;
+import it.sesalab.brunelleschi.core.entities.Component;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 
 import java.util.Collections;
@@ -10,21 +10,21 @@ import java.util.Set;
 
 public class FakeClassDependencyGraph extends DependencyGraph {
 
-    private SwComponent e1;
-    private SwComponent e2;
+    private Component e1;
+    private Component e2;
 
     public FakeClassDependencyGraph(boolean isPackageGraph) {
         super(isPackageGraph);
-        e1 = new SwComponent("package.A", ComponentType.CLASS);
-        e2 = new SwComponent("package.B", ComponentType.CLASS);
+        e1 = new Component("package.A", ComponentType.CLASS);
+        e2 = new Component("package.B", ComponentType.CLASS);
     }
 
-    public Set<SwComponent> getComponents(){
+    public Set<Component> getComponents(){
         return Set.of(e1, e2);
     }
 
     @Override
-    public Set<Set<SwComponent>> getCycles() {
+    public Set<Set<Component>> getCycles() {
         return Set.of(getComponents());
     }
 
@@ -39,7 +39,7 @@ public class FakeClassDependencyGraph extends DependencyGraph {
     }
 
     @Override
-    public Map<SwComponent, Integer> abstractionsDependenciesMap() {
+    public Map<Component, Integer> abstractionsDependenciesMap() {
         return Collections.emptyMap();
     }
 }

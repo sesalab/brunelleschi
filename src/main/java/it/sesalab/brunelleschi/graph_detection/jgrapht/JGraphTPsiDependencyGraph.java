@@ -2,7 +2,7 @@ package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import com.intellij.psi.*;
 import it.sesalab.brunelleschi.core.entities.ComponentType;
-import it.sesalab.brunelleschi.core.entities.SwComponent;
+import it.sesalab.brunelleschi.core.entities.Component;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -27,13 +27,13 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
     }
 
     @Override
-    public Set<Set<SwComponent>> getCycles() {
+    public Set<Set<Component>> getCycles() {
         DirectedSimpleCycles<T,LabeledEdge> detector = new TarjanSimpleCycles<>(this.projectGraph);
         List<List<T>> cycles = detector.findSimpleCycles();
        return cycles.stream().map((cycle) -> cycle
                .stream()
                .map(qualifiedNameOwner ->
-                       new SwComponent(qualifiedNameOwner.getQualifiedName(), componentType()))
+                       new Component(qualifiedNameOwner.getQualifiedName(), componentType()))
                .collect(Collectors.toSet())).collect(Collectors.toSet());
     }
 
@@ -48,11 +48,11 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
     }
 
     @Override
-    public Map<SwComponent, Integer> abstractionsDependenciesMap() {
-        Map<SwComponent, Integer> result = new HashMap<>();
+    public Map<Component, Integer> abstractionsDependenciesMap() {
+        Map<Component, Integer> result = new HashMap<>();
         for(T vertex: this.projectGraph.vertexSet()){
             if(vertex.hasModifierProperty(PsiModifier.ABSTRACT)){
-                SwComponent component = new SwComponent(vertex.getQualifiedName(),componentType());
+                Component component = new Component(vertex.getQualifiedName(),componentType());
                 result.put(component, this.projectGraph.degreeOf(vertex));
             }
         }

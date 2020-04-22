@@ -9,18 +9,18 @@ import java.util.*;
 @EqualsAndHashCode
 public class ArchitecturalSmell {
     protected final SmellType smellType;
-    protected final Set<SwComponent> affectedComponents;
+    protected final Set<Component> affectedComponents;
 
     public ArchitecturalSmell(SmellType smellType) {
         this.smellType = smellType;
         this.affectedComponents = new HashSet<>();
     }
 
-    public void addAffectedComponent(SwComponent component){
+    public void addAffectedComponent(Component component){
         this.affectedComponents.add(component);
     }
 
-    public void addAffectedComponents(Collection<? extends SwComponent> components){
+    public void addAffectedComponents(Collection<? extends Component> components){
         this.affectedComponents.addAll(components);
     }
 }
