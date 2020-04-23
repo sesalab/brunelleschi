@@ -36,8 +36,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         tinyCycle.add(new Component("cycles.tiny.B", ComponentType.CLASS));
         oracle.add(tinyCycle);
 
-        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
         assertEquals(oracle, tinyCycleGraph.getCycles());
@@ -53,8 +52,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         cycle.add(new Component("cycles.simple.C", ComponentType.CLASS));
         oracle.add(cycle);
 
-        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
         assertEquals(oracle, tinyCycleGraph.getCycles());
@@ -82,8 +80,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         tinyCycle.add(new Component("cycles.tiny.B", ComponentType.CLASS));
         oracle.add(tinyCycle);
 
-        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
         Set<Set<Component>> detectedCycles = tinyCycleGraph.getCycles();
@@ -94,8 +91,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
     public void testClique() {
         myFixture.configureByFiles( "cycles/clique/A.java","cycles/clique/B.java","cycles/clique/C.java");
 
-        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         Set<Set<Component>> detectedCycles = dependencyGraph.getCycles();
@@ -110,8 +106,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
     public void testAbstractionsDependenciesMap() {
         myFixture.configureByFiles( "hublike/A.java","hublike/B.java","hublike/Abstract.java");
 
-        PsiPackageExtractor psiPackageExtractor = new PsiPackageExtractor(myFixture.getProject());
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(psiPackageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         Component oracleAbstractClass = new Component("hublike.Abstract", ComponentType.CLASS);

@@ -15,7 +15,6 @@ import java.io.File;
 public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsightFixtureTestCase {
 
     Logger log = Logger.getLogger(this.getClass());
-    PsiPackageExtractor packageExtractor;
 
     @Override
     protected String getTestDataPath() {
@@ -35,7 +34,6 @@ public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsi
     public void setUp() throws Exception {
         super.setUp();
         myFixture.configureByFiles( "graph/A.java","graph/B.java");
-        packageExtractor = new PsiPackageExtractor(myFixture.getProject());
     }
 
     public void testClassAIsPresent() {
@@ -55,7 +53,7 @@ public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsi
         oracleGraph.addVertex(classB);
         oracleGraph.addEdge(classB,classA,new LabeledEdge("dependency"));
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(packageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         assertEquals(oracleGraph, ((JGraphTPsiDependencyGraph) dependencyGraph).getProjectGraph());
@@ -68,7 +66,7 @@ public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsi
         Graph<PsiClass,LabeledEdge> oracleGraph = new SimpleDirectedGraph<>(LabeledEdge.class);
         oracleGraph.addVertex(classA);
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(packageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         assertFalse(oracleGraph.equals(((JGraphTPsiDependencyGraph) dependencyGraph).getProjectGraph()));
@@ -83,7 +81,7 @@ public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsi
         oracleGraph.addVertex(classB);
         oracleGraph.addEdge(classA,classB,new LabeledEdge("dependency"));
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(packageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         assertFalse(oracleGraph.equals(((JGraphTPsiDependencyGraph) dependencyGraph).getProjectGraph()));
@@ -106,7 +104,7 @@ public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsi
         oracleGraph.addEdge(classC,classA,new LabeledEdge("dependency"));
         oracleGraph.addEdge(classC,classB,new LabeledEdge("dependency"));
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(packageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         assertEquals(oracleGraph, ((JGraphTPsiDependencyGraph) dependencyGraph).getProjectGraph());
@@ -127,7 +125,7 @@ public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsi
         oracleGraph.addEdge(classB,classA,new LabeledEdge("dependency"));
         oracleGraph.addEdge(classBChild,classB,new LabeledEdge("extends"));
 
-        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(packageExtractor);
+        DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         assertEquals(oracleGraph, ((JGraphTPsiDependencyGraph) dependencyGraph).getProjectGraph());
