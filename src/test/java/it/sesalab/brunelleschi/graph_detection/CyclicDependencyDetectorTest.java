@@ -1,10 +1,9 @@
-package it.sesalab.brunelleschi.graph_detection.cyclic_dependency;
+package it.sesalab.brunelleschi.graph_detection;
 
 import it.sesalab.brunelleschi.core.entities.ArchitecturalSmell;
 import it.sesalab.brunelleschi.core.entities.SmellType;
 import it.sesalab.brunelleschi.core.entities.detector.BaseSmellDetector;
 import it.sesalab.brunelleschi.core.entities.detector.SmellDetector;
-import it.sesalab.brunelleschi.graph_detection.CyclicDependencyDetector;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,18 +13,20 @@ import static org.junit.Assert.*;
 
 public class CyclicDependencyDetectorTest {
 
-    SmellDetector baseDetector;
+    SmellDetector smellDetector;
+    private FakeClassDependencyGraph fakeGraph;
 
     @Before
     public void setUp() throws Exception {
-        baseDetector = new BaseSmellDetector();
+        smellDetector = new BaseSmellDetector();
+        fakeGraph = new FakeClassDependencyGraph(false);
     }
 
     @Test
     public void testOneCycleDetector() {
-        FakeClassDependencyGraph fakeGraph = new FakeClassDependencyGraph(false);
-        CyclicDependencyDetector detector = new CyclicDependencyDetector(baseDetector, fakeGraph);
-        List<? extends ArchitecturalSmell> architecturalSmells = detector.detectSmells();
+
+        smellDetector = new CyclicDependencyDetector(smellDetector, fakeGraph);
+        List<ArchitecturalSmell> architecturalSmells = smellDetector.detectSmells();
         assertEquals(1, architecturalSmells.size());
 
         ArchitecturalSmell smell = architecturalSmells.get(0);

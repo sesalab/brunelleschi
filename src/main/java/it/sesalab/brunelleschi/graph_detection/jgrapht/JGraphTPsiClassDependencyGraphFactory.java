@@ -32,7 +32,7 @@ public class JGraphTPsiClassDependencyGraphFactory extends JGraphTPsiDependencyG
                 }
             }
         }
-        return new JGraphTPsiDependencyGraph<>(true, graphBuilder.build());
+        return new JGraphTPsiDependencyGraph<>(false, graphBuilder.build());
     }
 
     @NotNull

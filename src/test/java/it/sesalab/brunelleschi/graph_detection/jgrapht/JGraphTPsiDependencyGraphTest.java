@@ -3,10 +3,12 @@ package it.sesalab.brunelleschi.graph_detection.jgrapht;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 import it.sesalab.brunelleschi.core.entities.ComponentType;
 import it.sesalab.brunelleschi.core.entities.Component;
+import it.sesalab.brunelleschi.graph_detection.DependencyDescriptor;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -110,9 +112,9 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
         Component oracleAbstractClass = new Component("hublike.Abstract", ComponentType.CLASS);
-        Map<Component,Integer> oracle = Map.of(oracleAbstractClass,2);
+        Set<DependencyDescriptor> oracle = Collections.singleton(new DependencyDescriptor(oracleAbstractClass, 1, 1));
 
 
-        assertEquals(oracle, dependencyGraph.abstractionsDependenciesMap());
+        assertEquals(oracle, dependencyGraph.getAbstractionsWithDependencies());
     }
 }

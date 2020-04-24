@@ -3,6 +3,7 @@ package it.sesalab.brunelleschi.graph_detection.jgrapht;
 import com.intellij.psi.*;
 import it.sesalab.brunelleschi.core.entities.ComponentType;
 import it.sesalab.brunelleschi.core.entities.Component;
+import it.sesalab.brunelleschi.graph_detection.DependencyDescriptor;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -10,10 +11,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.alg.cycle.DirectedSimpleCycles;
 import org.jgrapht.alg.cycle.TarjanSimpleCycles;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -48,15 +46,27 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
     }
 
     @Override
-    public Map<Component, Integer> abstractionsDependenciesMap() {
-        Map<Component, Integer> result = new HashMap<>();
-        for(T vertex: this.projectGraph.vertexSet()){
-            if(vertex.hasModifierProperty(PsiModifier.ABSTRACT)){
-                Component component = new Component(vertex.getQualifiedName(),componentType());
-                result.put(component, this.projectGraph.degreeOf(vertex));
+    public Collection<DependencyDescriptor> getAbstractionsWithDependencies() {
+        Set<DependencyDescriptor> result = new HashSet<>();
+        for(T vertex: projectGraph.vertexSet()){
+            if(isAbstraction(vertex)){
+                DependencyDescriptor descriptor = composeDependencyDescriptor(vertex);
+                result.add(descriptor);
             }
         }
         return result;
+    }
+
+    private boolean isAbstraction(T vertex) {
+        return vertex.hasModifierProperty(PsiModifier.ABSTRACT);
+    }
+
+    @NotNull
+    private DependencyDescriptor composeDependencyDescriptor(T vertex) {
+        Component abstraction = new Component(vertex.getQualifiedName(),componentType());
+        int fanIn = projectGraph.inDegreeOf(vertex);
+        int fanOut = projectGraph.outDegreeOf(vertex);
+        return new DependencyDescriptor(abstraction, fanIn, fanOut);
     }
 
     @NotNull

@@ -11,7 +11,6 @@ import java.util.*;
 public class HubLikeDependencyDetector extends GraphBasedDetector {
 
     private final Integer smellinessThreshold;
-    private Map<Component, Integer> abstractionsWithDependencies;
 
     public HubLikeDependencyDetector(SmellDetector baseDetector, DependencyGraph projectGraph, Integer smellinessThreshold) {
         super(baseDetector, projectGraph);
@@ -24,11 +23,11 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
             throw new NotAllowedDetection("Hub-Like Dependency detection not allowed on package graph");
         }
         List<ArchitecturalSmell> result = baseDetector.detectSmells();
-        abstractionsWithDependencies = projectGraph.abstractionsDependenciesMap();
+        Collection<DependencyDescriptor> abstractionsWithDependencies = projectGraph.getAbstractionsWithDependencies();
 
-        for (Component abstraction: getAbstractions()){
-            if(numberOfDependenciesOf(abstraction) >= smellinessThreshold){
-                ArchitecturalSmell detectedSmell = makeHubLikeFrom(abstraction);
+        for (DependencyDescriptor descriptor: abstractionsWithDependencies){
+            if(descriptor.getNOfDependencies() >= smellinessThreshold){
+                ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
                 result.add(detectedSmell);
             }
         }
@@ -42,12 +41,4 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
         return detectedSmell;
     }
 
-    private Integer numberOfDependenciesOf(Component abstraction) {
-        return abstractionsWithDependencies.get(abstraction);
-    }
-
-    @NotNull
-    private Set<Component> getAbstractions() {
-        return abstractionsWithDependencies.keySet();
-    }
 }
