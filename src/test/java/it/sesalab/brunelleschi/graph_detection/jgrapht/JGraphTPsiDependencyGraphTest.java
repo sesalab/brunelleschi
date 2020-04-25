@@ -10,7 +10,6 @@ import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTestCase {
@@ -111,10 +110,16 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        Component oracleAbstractClass = new Component("hublike.Abstract", ComponentType.CLASS);
-        Set<DependencyDescriptor> oracle = Collections.singleton(new DependencyDescriptor(oracleAbstractClass, 1, 1));
+        Component oracleAbstractClass = new Component("hublike.Abstract", ComponentType.CLASS, true);
+        Component oracleAClass = new Component("hublike.A", ComponentType.CLASS);
+        Component oracleBClass = new Component("hublike.B", ComponentType.CLASS);
 
+        DependencyDescriptor abstractClassDescriptor = new DependencyDescriptor(oracleAbstractClass,1,1);
+        DependencyDescriptor aClassDescriptor = new DependencyDescriptor(oracleAClass,1,0);
+        DependencyDescriptor bClassDescriptor = new DependencyDescriptor(oracleBClass,0,1);
 
-        assertEquals(oracle, dependencyGraph.getAbstractionsWithDependencies());
+        Set<DependencyDescriptor> oracle = Set.of(abstractClassDescriptor,aClassDescriptor,bClassDescriptor);
+
+        assertEquals(oracle, dependencyGraph.evaluateDependencies());
     }
 }

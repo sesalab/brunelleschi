@@ -11,19 +11,18 @@ import org.junit.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
 public class HubLikeDependencyDetectorTest {
 
     SmellDetector smellDetector;
-    private FakeClassDependencyGraph fakeGraph;
+    private FakeClassGraph fakeGraph;
 
     @Before
     public void setUp() throws Exception {
         smellDetector = new BaseSmellDetector();
-        fakeGraph = new FakeClassDependencyGraph(false);
+        fakeGraph = new FakeClassGraph();
     }
 
     @Test

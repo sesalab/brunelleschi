@@ -46,13 +46,11 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
     }
 
     @Override
-    public Collection<DependencyDescriptor> getAbstractionsWithDependencies() {
+    public Collection<DependencyDescriptor> evaluateDependencies() {
         Set<DependencyDescriptor> result = new HashSet<>();
         for(T vertex: projectGraph.vertexSet()){
-            if(isAbstraction(vertex)){
-                DependencyDescriptor descriptor = composeDependencyDescriptor(vertex);
-                result.add(descriptor);
-            }
+            DependencyDescriptor descriptor = composeDependencyDescriptor(vertex);
+            result.add(descriptor);
         }
         return result;
     }
@@ -63,7 +61,7 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
 
     @NotNull
     private DependencyDescriptor composeDependencyDescriptor(T vertex) {
-        Component abstraction = new Component(vertex.getQualifiedName(),componentType());
+        Component abstraction = new Component(vertex.getQualifiedName(),componentType(), isAbstraction(vertex));
         int fanIn = projectGraph.inDegreeOf(vertex);
         int fanOut = projectGraph.outDegreeOf(vertex);
         return new DependencyDescriptor(abstraction, fanIn, fanOut);

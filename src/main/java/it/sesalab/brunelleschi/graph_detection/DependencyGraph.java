@@ -3,6 +3,7 @@ package it.sesalab.brunelleschi.graph_detection;
 import it.sesalab.brunelleschi.core.entities.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 public abstract class DependencyGraph {
@@ -23,6 +24,6 @@ public abstract class DependencyGraph {
 
     public abstract int nOfEdges();
 
-    public abstract Collection<DependencyDescriptor> getAbstractionsWithDependencies();
-
+    //TODO: Fix HubLikeFormula
+    public abstract Collection<DependencyDescriptor> evaluateDependencies();
 }

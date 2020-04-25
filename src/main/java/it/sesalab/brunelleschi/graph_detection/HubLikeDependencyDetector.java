@@ -23,12 +23,14 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
             throw new NotAllowedDetection("Hub-Like Dependency detection not allowed on package graph");
         }
         List<ArchitecturalSmell> result = baseDetector.detectSmells();
-        Collection<DependencyDescriptor> abstractionsWithDependencies = projectGraph.getAbstractionsWithDependencies();
+        Collection<DependencyDescriptor> abstractionsWithDependencies = projectGraph.evaluateDependencies();
 
         for (DependencyDescriptor descriptor: abstractionsWithDependencies){
-            if(descriptor.getNOfDependencies() >= smellinessThreshold){
-                ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
-                result.add(detectedSmell);
+            if(descriptor.getComponent().isAbstraction()) {
+                if (descriptor.totalDependencies() >= smellinessThreshold) {
+                    ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
+                    result.add(detectedSmell);
+                }
             }
         }
         return result;

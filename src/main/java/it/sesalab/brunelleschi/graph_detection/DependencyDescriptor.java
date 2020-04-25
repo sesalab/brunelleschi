@@ -9,7 +9,11 @@ public class DependencyDescriptor {
     private int fanIn;
     private int fanOut;
 
-    public int getNOfDependencies(){
+    public int totalDependencies(){
         return fanIn + fanOut;
+    }
+
+    public double getInstability(){
+        return (double)fanOut/(double) totalDependencies();
     }
 }
