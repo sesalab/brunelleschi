@@ -19,5 +19,10 @@
 
     <actions>
         <!-- Add your actions here -->
+        <action id="it.sesalab.brunelleschi.application.actions.StartAction"
+                class="it.sesalab.brunelleschi.application.actions.StartAction" text="Inspect Architechture"
+                description="Inspect Architechture">
+            <add-to-group group-id="AnalyzeActions" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
