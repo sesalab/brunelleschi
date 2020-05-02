@@ -3,7 +3,6 @@ package it.sesalab.brunelleschi.graph_detection;
 import it.sesalab.brunelleschi.core.entities.Component;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 
 public abstract class DependencyGraph {

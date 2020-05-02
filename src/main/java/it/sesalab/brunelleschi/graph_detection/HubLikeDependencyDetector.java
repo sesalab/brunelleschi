@@ -10,11 +10,17 @@ import java.util.*;
 
 public class HubLikeDependencyDetector extends GraphBasedDetector {
 
-    private final Integer smellinessThreshold;
+    private final Integer fanInThreshold;
+    private final Integer fanOutThreshold;
 
-    public HubLikeDependencyDetector(SmellDetector baseDetector, DependencyGraph projectGraph, Integer smellinessThreshold) {
+    public HubLikeDependencyDetector(SmellDetector baseDetector, DependencyGraph projectGraph, Integer dependencyThreshold) {
+        this(baseDetector,projectGraph,dependencyThreshold,dependencyThreshold);
+    }
+
+    public HubLikeDependencyDetector(SmellDetector baseDetector, DependencyGraph projectGraph, Integer fanInThreshold, Integer fanOutThreshold) {
         super(baseDetector, projectGraph);
-        this.smellinessThreshold = smellinessThreshold;
+        this.fanInThreshold = fanInThreshold;
+        this.fanOutThreshold = fanOutThreshold;
     }
 
     @Override
@@ -26,14 +32,18 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
         Collection<DependencyDescriptor> abstractionsWithDependencies = projectGraph.evaluateDependencies();
 
         for (DependencyDescriptor descriptor: abstractionsWithDependencies){
-            if(descriptor.getComponent().isAbstraction()) {
-                if (descriptor.totalDependencies() >= smellinessThreshold) {
+            if(hasHubLikeModularization(descriptor)) {
+                if (descriptor.totalDependencies() >= fanInThreshold) {
                     ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
                     result.add(detectedSmell);
                 }
             }
         }
         return result;
+    }
+
+    private boolean hasHubLikeModularization(DependencyDescriptor descriptor) {
+        return descriptor.getFanIn() >= fanInThreshold && descriptor.getFanOut() >= fanOutThreshold;
     }
 
     @NotNull

@@ -27,7 +27,7 @@ public class HubLikeDependencyDetectorTest {
 
     @Test
     public void detectSmells() {
-        smellDetector = new HubLikeDependencyDetector(smellDetector,fakeGraph,0);
+        smellDetector = new HubLikeDependencyDetector(smellDetector,fakeGraph,1);
 
         List<ArchitecturalSmell> actualSmells = smellDetector.detectSmells();
         assertEquals(2, actualSmells.size());

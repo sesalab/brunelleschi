@@ -104,7 +104,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
 
     }
 
-    public void testAbstractionsDependenciesMap() {
+    public void testDependencyDescriptorGeneration() {
         myFixture.configureByFiles( "hublike/A.java","hublike/B.java","hublike/Abstract.java");
 
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());

@@ -38,6 +38,6 @@ public class FakeClassGraph extends DependencyGraph {
 
     @Override
     public Collection<DependencyDescriptor> evaluateDependencies() {
-        return Set.of(new DependencyDescriptor(e1,1,0), new DependencyDescriptor(e2,0,1));
+        return Set.of(new DependencyDescriptor(e1,1,1), new DependencyDescriptor(e2,1,1));
     }
 }
