@@ -18,15 +18,21 @@ public class CsvFindSmellPresenter implements FindSmellPresenter {
         ComponentType
     }
 
-    private final File outputFile;
+    private final File outputDirectory;
 
-    public CsvFindSmellPresenter(File outputFile) {
-        this.outputFile = outputFile;
+    public CsvFindSmellPresenter(File outputDirectory) {
+        this.outputDirectory = outputDirectory;
     }
 
     @Override
     public void present(Collection<ArchitecturalSmell> smells) {
         try {
+            if(!outputDirectory.exists()){
+                outputDirectory.mkdirs();
+            }
+
+            File outputFile = new File(outputDirectory.getAbsolutePath() + File.separator + System.currentTimeMillis()+"-results.csv");
+
             CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(outputFile), CSVFormat.DEFAULT.withHeader(Headers.class));
             for(ArchitecturalSmell smell: smells){
                 for(Component component: smell.getAffectedComponents()){

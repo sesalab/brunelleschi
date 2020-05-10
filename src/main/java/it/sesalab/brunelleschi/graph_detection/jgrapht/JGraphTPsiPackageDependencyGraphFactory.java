@@ -15,7 +15,7 @@ public class JGraphTPsiPackageDependencyGraphFactory extends JGraphTPsiDependenc
     private GraphBuilder<PsiPackage, LabeledEdge, ? extends DefaultDirectedGraph<PsiPackage, LabeledEdge>> graphBuilder;
     private JavaPsiFacade javaPsiFacade;
 
-    protected JGraphTPsiPackageDependencyGraphFactory(Project currentProject) {
+    public JGraphTPsiPackageDependencyGraphFactory(Project currentProject) {
         super(currentProject);
         this.javaPsiFacade = JavaPsiFacade.getInstance(this.currentProject);
     }

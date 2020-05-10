@@ -17,5 +17,12 @@
 
     <actions>
         <!-- Add your actions here -->
+        <group id="it.sesalab.brunelleschi.GroupedActions" text="Brunelleschi" popup="true">
+            <add-to-group group-id="MainMenu" anchor="last"/>
+            <action id="it.sesalab.brunelleschi.application.actions.FindAllSmellAction"
+                    class="it.sesalab.brunelleschi.application.actions.FindAllSmellAction" text="FindAllSmell"
+                    description="EXPERIMENTAL">
+            </action>
+        </group>
     </actions>
 </idea-plugin>

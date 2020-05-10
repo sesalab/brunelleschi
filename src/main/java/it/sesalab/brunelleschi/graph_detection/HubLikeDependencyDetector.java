@@ -7,7 +7,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-
+/**
+ * Implements DESIGNITE-Like algorithm. Fan-in and fan-out higher
+ * than a given threshold.
+ */
 public class HubLikeDependencyDetector extends GraphBasedDetector {
 
     private final Integer fanInThreshold;
@@ -33,10 +36,8 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
 
         for (DependencyDescriptor descriptor: abstractionsWithDependencies){
             if(hasHubLikeModularization(descriptor)) {
-                if (descriptor.totalDependencies() >= fanInThreshold) {
-                    ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
-                    result.add(detectedSmell);
-                }
+                ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
+                result.add(detectedSmell);
             }
         }
         return result;
