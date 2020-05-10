@@ -13,7 +13,7 @@ public class ArchitecturalSmell {
 
     public ArchitecturalSmell(SmellType smellType) {
         this.smellType = smellType;
-        this.affectedComponents = new HashSet<>();
+        this.affectedComponents = new LinkedHashSet<>();
     }
 
     public void addAffectedComponent(Component component){
