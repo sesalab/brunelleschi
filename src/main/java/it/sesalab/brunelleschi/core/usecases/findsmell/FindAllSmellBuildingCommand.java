@@ -9,7 +9,6 @@ public class FindAllSmellBuildingCommand implements SmellDetectorBuildingCommand
 
     private final SmellDetectorBuilder smellDetectorBuilder;
     private final int hubLikeThreshold;
-    private final double unstableDependencyThreshold;
 
     @Override
     public SmellDetector buildSmellDetector() {

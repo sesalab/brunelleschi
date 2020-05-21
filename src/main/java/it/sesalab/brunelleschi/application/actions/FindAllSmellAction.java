@@ -30,7 +30,7 @@ public class FindAllSmellAction extends AnAction {
         DependencyGraph packageDependencyGraph = configuration.getPackageGraphFactory().makeDependencyGraph();
         DependencyGraph classDependencyGraph = configuration.getClassDependencyGraphFactory().makeDependencyGraph();
         SmellDetectorBuilder smellDetectorBuilder = new GraphBasedDetectorBuilder(packageDependencyGraph,classDependencyGraph);
-        SmellDetectorBuildingCommand command = new FindAllSmellBuildingCommand(smellDetectorBuilder,10,0.3);
+        SmellDetectorBuildingCommand command = new FindAllSmellBuildingCommand(smellDetectorBuilder,10);
 
 
         ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
