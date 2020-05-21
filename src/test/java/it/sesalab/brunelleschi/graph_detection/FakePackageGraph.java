@@ -4,6 +4,7 @@ import it.sesalab.brunelleschi.core.entities.Component;
 import it.sesalab.brunelleschi.core.entities.ComponentType;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 public class FakePackageGraph extends DependencyGraph {
@@ -30,5 +31,10 @@ public class FakePackageGraph extends DependencyGraph {
     @Override
     public Collection<DependencyDescriptor> evaluateDependencies() {
         return Set.of(new DependencyDescriptor(new Component("unstableDependency", ComponentType.PACKAGE),2,3));
+    }
+
+    @Override
+    public Collection<Component> getUnstableComponents() {
+        return List.of(new Component("unstableDependency", ComponentType.PACKAGE));
     }
 }

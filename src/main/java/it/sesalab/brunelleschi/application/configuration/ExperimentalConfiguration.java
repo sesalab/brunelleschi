@@ -21,7 +21,6 @@ public class ExperimentalConfiguration {
     private final Project currentProject;
     private final DependencyGraphFactory classDependencyGraphFactory;
     private final DependencyGraphFactory packageGraphFactory;
-    private final String outputPath;
     private final FindSmellPresenter presenter;
 
 
@@ -29,9 +28,7 @@ public class ExperimentalConfiguration {
         this.currentProject = currentProject;
         packageGraphFactory = new JGraphTPsiPackageDependencyGraphFactory(currentProject);
         classDependencyGraphFactory = new JGraphTPsiClassDependencyGraphFactory(currentProject);
-        outputPath = System.getProperty("user.home") + File.separator + ".brunelleschi" + File.separator + currentProject.getName();
-        File outputDirectory = new File(outputPath);
-        presenter = new CsvFindSmellPresenter(outputDirectory);
+        presenter = new CsvFindSmellPresenter(currentProject.getName());
     }
 
 

@@ -6,7 +6,7 @@ public interface SmellDetectorBuilder {
 
     SmellDetectorBuilder enableHubLikeDependencyDetection(int threshold);
 
-    SmellDetectorBuilder enableUnstableDependencyDetection(double threshold);
+    SmellDetectorBuilder enableUnstableDependencyDetection();
 
     SmellDetector build();
 

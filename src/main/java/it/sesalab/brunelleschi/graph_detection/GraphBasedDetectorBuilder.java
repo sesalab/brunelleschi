@@ -27,8 +27,8 @@ public class GraphBasedDetectorBuilder implements SmellDetectorBuilder {
     }
 
     @Override
-    public SmellDetectorBuilder enableUnstableDependencyDetection(double threshold) {
-        instanceToBuild = new UnstableDependencyDetector(instanceToBuild, packageGraph, threshold);
+    public SmellDetectorBuilder enableUnstableDependencyDetection() {
+        instanceToBuild = new UnstableDependencyDetector(instanceToBuild, packageGraph);
         return this;
     }
 

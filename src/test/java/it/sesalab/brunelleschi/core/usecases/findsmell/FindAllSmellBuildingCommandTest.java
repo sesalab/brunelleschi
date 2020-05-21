@@ -24,7 +24,7 @@ public class FindAllSmellBuildingCommandTest {
         MockitoAnnotations.initMocks(this);
         when(mockBuilder.enableCyclicDependencyDetection()).thenReturn(mockBuilder);
         when(mockBuilder.enableHubLikeDependencyDetection(anyInt())).thenReturn(mockBuilder);
-        when(mockBuilder.enableUnstableDependencyDetection(anyDouble())).thenReturn(mockBuilder);
+        when(mockBuilder.enableUnstableDependencyDetection()).thenReturn(mockBuilder);
         when(mockBuilder.build()).thenReturn(mockDetector);
     }
 
@@ -37,7 +37,7 @@ public class FindAllSmellBuildingCommandTest {
         commandUnderTest.buildSmellDetector();
         verify(mockBuilder,times(1)).enableCyclicDependencyDetection();
         verify(mockBuilder,times(1)).enableHubLikeDependencyDetection(hubLikeThreshold);
-        verify(mockBuilder,times(1)).enableUnstableDependencyDetection(unstableDependencyThreshold);
+        verify(mockBuilder,times(1)).enableUnstableDependencyDetection();
         verify(mockBuilder,times(1)).build();
     }
 }

@@ -1,6 +1,7 @@
 package it.sesalab.brunelleschi.graph_detection;
 
 import it.sesalab.brunelleschi.core.entities.ArchitecturalSmell;
+import it.sesalab.brunelleschi.core.entities.Component;
 import it.sesalab.brunelleschi.core.entities.SmellType;
 import it.sesalab.brunelleschi.core.entities.detector.SmellDetector;
 
@@ -9,23 +10,18 @@ import java.util.List;
 
 public class UnstableDependencyDetector extends GraphBasedDetector {
 
-    private final double smellThreshold;
-
-    public UnstableDependencyDetector(SmellDetector baseDetector, DependencyGraph projectGraph, double smellThreshold) {
+    public UnstableDependencyDetector(SmellDetector baseDetector, DependencyGraph projectGraph) {
         super(baseDetector, projectGraph);
-        this.smellThreshold = smellThreshold;
     }
 
     @Override
     public List<ArchitecturalSmell> detectSmells() {
         List<ArchitecturalSmell> result = new ArrayList<>();
 
-        for(DependencyDescriptor descriptor: projectGraph.evaluateDependencies()){
-            if(descriptor.getInstability() >= smellThreshold){
+        for(Component component: projectGraph.getUnstableComponents()){
                 ArchitecturalSmell detectedSmell = new ArchitecturalSmell(SmellType.UNSTABLE_DEPENDENCY);
-                detectedSmell.addAffectedComponent(descriptor.getComponent());
+                detectedSmell.addAffectedComponent(component);
                 result.add(detectedSmell);
-            }
         }
 
         return result;

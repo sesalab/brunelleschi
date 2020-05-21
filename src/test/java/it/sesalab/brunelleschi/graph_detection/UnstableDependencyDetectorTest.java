@@ -19,7 +19,7 @@ public class UnstableDependencyDetectorTest {
 
         FakePackageGraph graph = new FakePackageGraph();
         BaseSmellDetector baseSmellDetector = new BaseSmellDetector();
-        SmellDetector unstableDependencyDetector = new UnstableDependencyDetector(baseSmellDetector,graph,0.3);
+        SmellDetector unstableDependencyDetector = new UnstableDependencyDetector(baseSmellDetector,graph);
 
         Component smellyComponent = new Component("unstableDependency", ComponentType.PACKAGE);
         ArchitecturalSmell oracle = new ArchitecturalSmell(SmellType.UNSTABLE_DEPENDENCY);

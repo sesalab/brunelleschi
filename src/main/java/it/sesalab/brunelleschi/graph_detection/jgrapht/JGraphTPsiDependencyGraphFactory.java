@@ -32,7 +32,9 @@ public abstract class JGraphTPsiDependencyGraphFactory extends DependencyGraphFa
         Set<PsiClass> result = new HashSet<>();
         for (PsiReference ref : search.findAll()) {
             PsiClass dependentClass = PsiTreeUtil.getParentOfType(ref.getElement(), PsiClass.class);
-            result.add(dependentClass);
+            if(dependentClass != null) {
+                result.add(dependentClass);
+            }
 
         }
         return result;

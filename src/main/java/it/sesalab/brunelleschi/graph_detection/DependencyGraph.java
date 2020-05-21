@@ -23,6 +23,8 @@ public abstract class DependencyGraph {
 
     public abstract int nOfEdges();
 
-    //TODO: Fix HubLikeFormula
     public abstract Collection<DependencyDescriptor> evaluateDependencies();
+
+    // TODO: TEST!!!!!
+    public abstract Collection<Component> getUnstableComponents();
 }

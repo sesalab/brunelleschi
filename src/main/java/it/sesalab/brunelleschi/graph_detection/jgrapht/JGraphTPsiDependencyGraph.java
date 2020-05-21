@@ -8,6 +8,7 @@ import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
 import org.jgrapht.alg.cycle.DirectedSimpleCycles;
 import org.jgrapht.alg.cycle.TarjanSimpleCycles;
 
@@ -51,6 +52,25 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
         for(T vertex: projectGraph.vertexSet()){
             DependencyDescriptor descriptor = composeDependencyDescriptor(vertex);
             result.add(descriptor);
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<Component> getUnstableComponents() {
+        if(!isPackageGraph){
+            throw new IllegalStateException("Method must be called on package graph");
+        }
+        List<Component> result = new ArrayList<>();
+        for(T currentVertex: projectGraph.vertexSet()) {
+            List<T> successors = Graphs.successorListOf(projectGraph, currentVertex);
+            DependencyDescriptor currentVertexDescriptor = composeDependencyDescriptor(currentVertex);
+            for(T successor : successors){
+                DependencyDescriptor successorDescriptor = composeDependencyDescriptor(successor);
+                if(currentVertexDescriptor.getInstability() <= successorDescriptor.getInstability()){
+                    result.add(new Component(currentVertex.getQualifiedName(),componentType(), isAbstraction(currentVertex)));
+                }
+            }
         }
         return result;
     }

@@ -11,32 +11,37 @@ import java.io.IOException;
 import java.util.Collection;
 
 public class CsvFindSmellPresenter implements FindSmellPresenter {
-
+    //TODO: TEST!!!!
     enum Headers {
+        ProjectName,
         SmellName,
         ComponentName,
         ComponentType
     }
 
-    private final File outputDirectory;
 
-    public CsvFindSmellPresenter(File outputDirectory) {
-        this.outputDirectory = outputDirectory;
+    private final String projectName;
+    private File baseDirectory;
+
+    public CsvFindSmellPresenter(String projectName) {
+        this.projectName = projectName;
+        baseDirectory = new File(System.getProperty("user.home") + File.separator + ".brunelleschi" + File.separator + projectName);
     }
+
 
     @Override
     public void present(Collection<ArchitecturalSmell> smells) {
         try {
-            if(!outputDirectory.exists()){
-                outputDirectory.mkdirs();
+            if(!baseDirectory.exists()){
+                baseDirectory.mkdirs();
             }
 
-            File outputFile = new File(outputDirectory.getAbsolutePath() + File.separator + System.currentTimeMillis()+"-results.csv");
+            File outputFile = new File(baseDirectory.getAbsolutePath() + File.separator + System.currentTimeMillis()+"-results.csv");
 
             CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(outputFile), CSVFormat.DEFAULT.withHeader(Headers.class));
             for(ArchitecturalSmell smell: smells){
                 for(Component component: smell.getAffectedComponents()){
-                    csvPrinter.printRecord(smell.getSmellType(),component.getQualifiedName(),component.getType());
+                    csvPrinter.printRecord(projectName,smell.getSmellType(),component.getQualifiedName(),component.getType());
                 }
             }
             csvPrinter.close();

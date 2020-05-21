@@ -14,7 +14,7 @@ public class FindAllSmellBuildingCommand implements SmellDetectorBuildingCommand
     @Override
     public SmellDetector buildSmellDetector() {
         return smellDetectorBuilder
-                .enableUnstableDependencyDetection(unstableDependencyThreshold)
+                .enableUnstableDependencyDetection()
                 .enableHubLikeDependencyDetection(hubLikeThreshold)
                 .enableCyclicDependencyDetection()
                 .build();
