@@ -14,7 +14,7 @@ public class FakePackageGraph extends DependencyGraph {
     }
 
     @Override
-    public Set<Set<Component>> getCycles() {
+    public List<List<Component>> getCycles() {
         return null;
     }
 

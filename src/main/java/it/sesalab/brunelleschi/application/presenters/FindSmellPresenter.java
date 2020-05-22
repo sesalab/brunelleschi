@@ -1,4 +1,4 @@
-package it.sesalab.brunelleschi.application.adapter;
+package it.sesalab.brunelleschi.application.presenters;
 
 import it.sesalab.brunelleschi.core.entities.ArchitecturalSmell;
 

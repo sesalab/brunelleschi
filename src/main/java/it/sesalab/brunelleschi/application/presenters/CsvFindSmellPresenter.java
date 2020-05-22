@@ -1,4 +1,4 @@
-package it.sesalab.brunelleschi.application.adapter;
+package it.sesalab.brunelleschi.application.presenters;
 
 import it.sesalab.brunelleschi.core.entities.ArchitecturalSmell;
 import it.sesalab.brunelleschi.core.entities.Component;
@@ -35,16 +35,16 @@ public class CsvFindSmellPresenter implements FindSmellPresenter {
             if(!baseDirectory.exists()){
                 baseDirectory.mkdirs();
             }
-
-            File outputFile = new File(baseDirectory.getAbsolutePath() + File.separator + System.currentTimeMillis()+"-results.csv");
-
-            CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(outputFile), CSVFormat.DEFAULT.withHeader(Headers.class));
+            int counter = 0;
             for(ArchitecturalSmell smell: smells){
+                File outputFile = new File(baseDirectory.getAbsolutePath() + File.separator + smell.getSmellType()+"-"+counter+".csv");
+                CSVPrinter csvPrinter = new CSVPrinter(new FileWriter(outputFile), CSVFormat.DEFAULT.withHeader(Headers.class));
                 for(Component component: smell.getAffectedComponents()){
                     csvPrinter.printRecord(projectName,smell.getSmellType(),component.getQualifiedName(),component.getType());
                 }
+                csvPrinter.close(true);
+                counter++;
             }
-            csvPrinter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -23,7 +23,7 @@ public class FakeClassGraph extends DependencyGraph {
     }
 
     @Override
-    public Set<Set<Component>> getCycles() {
+    public List<List<Component>> getCycles() {
         return Set.of(getComponents());
     }
 

@@ -6,7 +6,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.ui.Messages;
-import it.sesalab.brunelleschi.application.adapter.FindSmellPresenter;
+import it.sesalab.brunelleschi.application.presenters.FindSmellPresenter;
 import it.sesalab.brunelleschi.application.configuration.ExperimentalConfiguration;
 import it.sesalab.brunelleschi.core.entities.ArchitecturalSmell;
 import it.sesalab.brunelleschi.core.entities.detector.SmellDetectorBuilder;
@@ -22,16 +22,11 @@ import java.util.Collection;
 public class FindAllSmellAction extends AnAction {
 
     private int smellFound;
+    private Collection<ArchitecturalSmell> results;
+    private ExperimentalConfiguration configuration;
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-
-        ExperimentalConfiguration configuration = new ExperimentalConfiguration(e.getProject());
-        DependencyGraph packageDependencyGraph = configuration.getPackageGraphFactory().makeDependencyGraph();
-        DependencyGraph classDependencyGraph = configuration.getClassDependencyGraphFactory().makeDependencyGraph();
-        SmellDetectorBuilder smellDetectorBuilder = new GraphBasedDetectorBuilder(packageDependencyGraph,classDependencyGraph);
-        SmellDetectorBuildingCommand command = new FindAllSmellBuildingCommand(smellDetectorBuilder,10);
-
 
         ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
 
@@ -40,18 +35,20 @@ public class FindAllSmellAction extends AnAction {
             indicator.setText("Analyzing project ...");
 
             ApplicationManager.getApplication().runReadAction(() -> {
+                configuration = new ExperimentalConfiguration(e.getProject());
+                DependencyGraph packageDependencyGraph = configuration.getPackageGraphFactory().makeDependencyGraph();
+                DependencyGraph classDependencyGraph = configuration.getClassDependencyGraphFactory().makeDependencyGraph();
+                SmellDetectorBuilder smellDetectorBuilder = new GraphBasedDetectorBuilder(packageDependencyGraph,classDependencyGraph);
+                SmellDetectorBuildingCommand command = new FindAllSmellBuildingCommand(smellDetectorBuilder,10);
                 FindSmellInteractor interactor = new FindSmellInteractor(command);
-                Collection<ArchitecturalSmell> results = interactor.execute();
-                FindSmellPresenter presenter = configuration.getPresenter();
-                presenter.present(results);
-                smellFound = results.size();
+                results = interactor.execute();
             });
 
+            FindSmellPresenter presenter = configuration.getPresenter();
+            presenter.present(results);
+            smellFound = results.size();
+
         }, "Brunelleschi - Architectural Smell Detection", false, e.getProject());
-
-
-
-
 
         Messages.showMessageDialog(e.getProject(), "Brunelleschi found "+smellFound+" smells", "ATTENTION! ", Messages.getInformationIcon());
     }

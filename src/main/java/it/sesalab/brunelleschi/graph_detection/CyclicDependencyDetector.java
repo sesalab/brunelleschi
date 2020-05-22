@@ -20,7 +20,7 @@ public class CyclicDependencyDetector extends GraphBasedDetector {
     @Override
     public List<ArchitecturalSmell> detectSmells() {
         List<ArchitecturalSmell> result = baseDetector.detectSmells();
-        for (Set<Component> cycle : this.projectGraph.getCycles()){
+        for (List<Component> cycle : this.projectGraph.getCycles()){
             ArchitecturalSmell smell = new ArchitecturalSmell(SmellType.CYCLIC_DEPENDENCY);
             smell.addAffectedComponents(cycle);
             result.add(smell);

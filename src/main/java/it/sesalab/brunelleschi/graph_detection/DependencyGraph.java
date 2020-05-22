@@ -3,7 +3,7 @@ package it.sesalab.brunelleschi.graph_detection;
 import it.sesalab.brunelleschi.core.entities.Component;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 public abstract class DependencyGraph {
 
@@ -17,7 +17,7 @@ public abstract class DependencyGraph {
         return isPackageGraph;
     }
 
-    public abstract Set<Set<Component>> getCycles();
+    public abstract List<List<Component>> getCycles();
 
     public abstract int nOfVertices();
 

@@ -1,13 +1,12 @@
 package it.sesalab.brunelleschi.application.configuration;
 
 import com.intellij.openapi.project.Project;
-import it.sesalab.brunelleschi.application.adapter.CsvFindSmellPresenter;
-import it.sesalab.brunelleschi.application.adapter.FindSmellPresenter;
+import it.sesalab.brunelleschi.application.presenters.CsvFindSmellPresenter;
+import it.sesalab.brunelleschi.application.presenters.FindSmellPresenter;
+import it.sesalab.brunelleschi.application.presenters.FindSmellSummaryPresenter;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 import it.sesalab.brunelleschi.graph_detection.jgrapht.JGraphTPsiClassDependencyGraphFactory;
 import it.sesalab.brunelleschi.graph_detection.jgrapht.JGraphTPsiPackageDependencyGraphFactory;
-
-import java.io.File;
 
 /**
  * This class represent the configuration used for
@@ -28,7 +27,8 @@ public class ExperimentalConfiguration {
         this.currentProject = currentProject;
         packageGraphFactory = new JGraphTPsiPackageDependencyGraphFactory(currentProject);
         classDependencyGraphFactory = new JGraphTPsiClassDependencyGraphFactory(currentProject);
-        presenter = new CsvFindSmellPresenter(currentProject.getName());
+        CsvFindSmellPresenter basePresenter = new CsvFindSmellPresenter(currentProject.getName());
+        presenter = new FindSmellSummaryPresenter(basePresenter,currentProject.getName());
     }
 
 

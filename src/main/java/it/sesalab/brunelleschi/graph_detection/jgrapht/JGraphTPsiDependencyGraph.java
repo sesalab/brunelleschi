@@ -26,14 +26,14 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
     }
 
     @Override
-    public Set<Set<Component>> getCycles() {
+    public List<List<Component>> getCycles() {
         DirectedSimpleCycles<T,LabeledEdge> detector = new TarjanSimpleCycles<>(this.projectGraph);
         List<List<T>> cycles = detector.findSimpleCycles();
        return cycles.stream().map((cycle) -> cycle
                .stream()
                .map(qualifiedNameOwner ->
                        new Component(qualifiedNameOwner.getQualifiedName(), componentType()))
-               .collect(Collectors.toSet())).collect(Collectors.toSet());
+               .collect(Collectors.toList())).collect(Collectors.toList());
     }
 
     @Override
