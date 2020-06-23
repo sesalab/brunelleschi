@@ -18,13 +18,13 @@ public class FakeClassGraph extends DependencyGraph {
         e2 = new Component("package.B", ComponentType.CLASS, true);
     }
 
-    public Set<Component> getComponents(){
-        return Set.of(e1, e2);
+    public List<Component> getComponents(){
+        return List.of(e1, e2);
     }
 
     @Override
-    public List<List<Component>> getCycles() {
-        return Set.of(getComponents());
+    public List<List<Component>> getStronglyConnectedComponents() {
+        return List.of(getComponents());
     }
 
     @Override

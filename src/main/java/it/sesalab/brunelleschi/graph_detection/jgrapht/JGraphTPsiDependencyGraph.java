@@ -9,8 +9,10 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
+import org.jgrapht.alg.connectivity.GabowStrongConnectivityInspector;
 import org.jgrapht.alg.cycle.DirectedSimpleCycles;
 import org.jgrapht.alg.cycle.TarjanSimpleCycles;
+import org.jgrapht.alg.interfaces.StrongConnectivityAlgorithm;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,14 +28,14 @@ public class JGraphTPsiDependencyGraph<T extends PsiQualifiedNamedElement & PsiM
     }
 
     @Override
-    public List<List<Component>> getCycles() {
-        DirectedSimpleCycles<T,LabeledEdge> detector = new TarjanSimpleCycles<>(this.projectGraph);
-        List<List<T>> cycles = detector.findSimpleCycles();
-       return cycles.stream().map((cycle) -> cycle
-               .stream()
-               .map(qualifiedNameOwner ->
-                       new Component(qualifiedNameOwner.getQualifiedName(), componentType()))
-               .collect(Collectors.toList())).collect(Collectors.toList());
+    public List<List<Component>> getStronglyConnectedComponents() {
+        StrongConnectivityAlgorithm<T,LabeledEdge> connectivityAlgorithm = new GabowStrongConnectivityInspector<>(this.projectGraph);
+        List<Set<T>> stronglyConnectedSets = connectivityAlgorithm.stronglyConnectedSets();
+        return stronglyConnectedSets.stream().map(ts ->
+                ts.stream().map(t ->
+                        new Component(t.getQualifiedName(),componentType(),isAbstraction(t)))
+                        .collect(Collectors.toList()))
+                .collect(Collectors.toList());
     }
 
     @Override

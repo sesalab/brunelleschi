@@ -17,7 +17,7 @@ public abstract class DependencyGraph {
         return isPackageGraph;
     }
 
-    public abstract List<List<Component>> getCycles();
+    public abstract List<List<Component>> getStronglyConnectedComponents();
 
     public abstract int nOfVertices();
 

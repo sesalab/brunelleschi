@@ -32,7 +32,7 @@ public class FindAllSmellBuildingCommandTest {
     public void testCommandInvokesBuilderCorrectly() {
         int hubLikeThreshold = 0;
         double unstableDependencyThreshold = 0.0;
-        commandUnderTest = new FindAllSmellBuildingCommand(mockBuilder, hubLikeThreshold, unstableDependencyThreshold);
+        commandUnderTest = new FindAllSmellBuildingCommand(mockBuilder, hubLikeThreshold);
 
         commandUnderTest.buildSmellDetector();
         verify(mockBuilder,times(1)).enableCyclicDependencyDetection();
