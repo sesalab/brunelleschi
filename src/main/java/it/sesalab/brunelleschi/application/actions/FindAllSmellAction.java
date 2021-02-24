@@ -41,7 +41,7 @@ public class FindAllSmellAction extends AnAction {
                 DependencyGraph packageDependencyGraph = configuration.getPackageGraphFactory().makeDependencyGraph();
                 DependencyGraph classDependencyGraph = configuration.getClassDependencyGraphFactory().makeDependencyGraph();
                 SmellDetectorBuilder smellDetectorBuilder = new GraphBasedDetectorBuilder(packageDependencyGraph,classDependencyGraph);
-                SmellDetectorBuildingCommand command = new FindAllSmellBuildingCommand(smellDetectorBuilder,10);
+                SmellDetectorBuildingCommand command = new FindAllSmellBuildingCommand(smellDetectorBuilder,20);
                 FindSmellInteractor interactor = new FindSmellInteractor(command);
                 results = interactor.execute();
             });

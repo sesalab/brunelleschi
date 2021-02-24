@@ -21,24 +21,27 @@ public class JGraphTPsiClassDependencyGraphFactory extends JGraphTPsiDependencyG
     public DependencyGraph makeDependencyGraph() {
         //TODO figure out how to reuse more of the code below
         graphBuilder = DefaultDirectedGraph.createBuilder(LabeledEdge.class);
-        for (PsiPackage aPackage : allProjectJavaPackages()) {
-            for (PsiClass currentClass : aPackage.getClasses()) {
-                graphBuilder.addVertex(currentClass);
-                for (PsiClass dependentClass: findDependentClasses(currentClass)) {
-                    graphBuilder.addVertex(dependentClass);
-
-                    LabeledEdge edge = makeEdge(currentClass, dependentClass);
-                    graphBuilder.addEdge(dependentClass, currentClass, edge);
+            for (PsiClass currentClass : projectClasses) {
+                if(classIsLegit(currentClass)) {
+                    graphBuilder.addVertex(currentClass);
+                    for (PsiClass dependentClass : findDependentClasses(currentClass)) {
+                        graphBuilder.addVertex(dependentClass);
+                        makeEdgeBetween(currentClass, dependentClass);
+                    }
                 }
-            }
         }
-        return new JGraphTPsiDependencyGraph<>(false, graphBuilder.build());
+        return new JGraphTPsiDependencyGraph<>(false, graphBuilder.build(), currentProject.getName());
+    }
+
+    private void makeEdgeBetween(PsiClass currentClass, PsiClass dependentClass) {
+        LabeledEdge edge = makeEdge(currentClass, dependentClass);
+        graphBuilder.addEdge(currentClass, dependentClass, edge);
     }
 
     @NotNull
     protected LabeledEdge makeEdge(PsiClass currentClass, PsiClass dependentClass) {
         LabeledEdge edge;
-        if(dependentClass.getSuperClass() != null && dependentClass.getSuperClass().equals(currentClass)){
+        if(currentClass.getSuperClass() != null && currentClass.getSuperClass().equals(dependentClass)){
             edge = new LabeledEdge(EXTENDS_LABEL);
         } else {
             edge = new LabeledEdge(DEPENDENCY_LABEL);

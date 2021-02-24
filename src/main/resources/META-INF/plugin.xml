@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>it.sesalab.brunelleschi</id>
     <name>Brunelleschi</name>
-    <vendor email="m.destefano36@studenti.unisa.it" url="http://www.sesa.unisa.it/">SeSa Lab - University Of Salerno</vendor>
+    <vendor email="madestefano.unisa.it" url="http://www.sesa.unisa.it/">SeSa Lab - University Of Salerno</vendor>
 
     <description><![CDATA[
     A plugin for architectural smell detection.
@@ -24,5 +24,9 @@
                     description="EXPERIMENTAL">
             </action>
         </group>
+        <action id="it.selsalab.brunelleschi.application.actions"
+                class="it.sesalab.brunelleschi.application.actions.DependencyFindAction" text="FindDependencies">
+            <add-to-group group-id="AnalyzeActions" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

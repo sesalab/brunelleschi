@@ -23,8 +23,13 @@ public class FakeClassGraph extends DependencyGraph {
     }
 
     @Override
-    public List<List<Component>> getStronglyConnectedComponents() {
+    public List<List<Component>> getElementsInStronglyConnectedComponents() {
         return List.of(getComponents());
+    }
+
+    @Override
+    public List<DependencyGraph> getStronglyConnectedComponents() {
+        return null;
     }
 
     @Override

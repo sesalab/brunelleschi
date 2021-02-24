@@ -1,7 +1,12 @@
 package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 
+import com.intellij.analysis.AnalysisScope;
+import com.intellij.packageDependencies.DependencyValidationManager;
+import com.intellij.packageDependencies.ForwardDependenciesBuilder;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiJavaFile;
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
@@ -11,6 +16,8 @@ import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
 import java.io.File;
+import java.util.Map;
+import java.util.Set;
 
 public class JGraphTPsiClassDependencyGraphFactoryTest extends LightJavaCodeInsightFixtureTestCase {
 

@@ -50,11 +50,13 @@ public class LabeledEdge extends DefaultEdge {
     @Override
     public int hashCode() {
         int labelHash = getLabel() != null ? getLabel().hashCode() : 0;
-        return labelHash + getSource().hashCode() + getTarget().hashCode();
+        int sourceHash = getSource() != null ? getSource().hashCode() : 1;
+        int targetHash = getTarget() != null ? getTarget().hashCode() : 2;
+        return labelHash + sourceHash + targetHash;
     }
 
     @Override
     public String toString() {
-        return "(" + getSource() + " : " + getTarget() + " : " + label + ")";
+        return "(" + label + ")";
     }
 }

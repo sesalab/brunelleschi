@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'it.sesalab'
-version '1.0-SNAPSHOT'
+version '0.3.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -39,6 +39,12 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
     compile group: 'org.apache.commons', name: 'commons-csv', version: '1.8'
+
+    // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-io
+    compile group: 'org.jgrapht', name: 'jgrapht-io', version: '1.5.0'
+
+    // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-ext
+    compile group: 'org.jgrapht', name: 'jgrapht-ext', version: '1.5.0'
 
 
 }

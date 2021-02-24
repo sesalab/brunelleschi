@@ -54,7 +54,8 @@ public class FindSmellSummaryPresenter extends AbstractPresenterDecorator {
                 case CYCLIC_DEPENDENCY:
                     nOfCyclic++;
                     break;
-                case HUB_LIKE_DEPENDENCY:
+                case HUB_LIKE_DEPENDENCY :
+                case BORDERLINE_HUB_LIKE:
                     nOfHubLikes++;
                     break;
                 case UNSTABLE_DEPENDENCY:
