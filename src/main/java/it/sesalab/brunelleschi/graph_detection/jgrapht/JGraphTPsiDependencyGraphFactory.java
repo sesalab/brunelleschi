@@ -2,24 +2,26 @@ package it.sesalab.brunelleschi.graph_detection.jgrapht;
 
 import com.intellij.analysis.AnalysisScope;
 import com.intellij.openapi.project.Project;
+import com.intellij.packageDependencies.ForwardDependenciesBuilder;
 import com.intellij.psi.*;
-import com.intellij.psi.search.searches.ReferencesSearch;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.util.Query;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraph;
 import it.sesalab.brunelleschi.graph_detection.DependencyGraphFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public abstract class JGraphTPsiDependencyGraphFactory extends DependencyGraphFactory {
 
     protected final Project currentProject;
+    protected final Set<PsiClass> projectClasses;
 
     protected JGraphTPsiDependencyGraphFactory(Project currentProject) {
         this.currentProject = currentProject;
+        this.projectClasses = allProjectJavaPackages().stream().flatMap(psiPackage1 -> Stream.of(psiPackage1.getClasses())).collect(Collectors.toSet());
     }
 
     @Override
@@ -27,16 +29,13 @@ public abstract class JGraphTPsiDependencyGraphFactory extends DependencyGraphFa
 
     @NotNull
     protected Set<PsiClass> findDependentClasses(PsiClass currentClass) {
-        Query<PsiReference> search = ReferencesSearch.search(currentClass);
-
         Set<PsiClass> result = new HashSet<>();
-        for (PsiReference ref : search.findAll()) {
-            PsiClass dependentClass = PsiTreeUtil.getParentOfType(ref.getElement(), PsiClass.class);
-            if(dependentClass != null) {
+        ForwardDependenciesBuilder.analyzeFileDependencies(currentClass.getContainingFile(),(place, dependency) -> {
+            if(classIsLegit(dependency)){
+                PsiClass dependentClass = (PsiClass) dependency;
                 result.add(dependentClass);
             }
-
-        }
+        });
         return result;
     }
 
@@ -58,5 +57,9 @@ public abstract class JGraphTPsiDependencyGraphFactory extends DependencyGraphFa
             }
         });
         return foundPackages;
+    }
+
+    protected boolean classIsLegit(PsiElement dependency){
+        return dependency instanceof PsiClass && projectClasses.contains(dependency) && !(((PsiClass) dependency).isAnnotationType() || ((PsiClass) dependency).isEnum());
     }
 }

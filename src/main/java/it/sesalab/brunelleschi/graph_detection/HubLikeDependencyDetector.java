@@ -35,8 +35,15 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
         Collection<DependencyDescriptor> abstractionsWithDependencies = projectGraph.evaluateDependencies();
 
         for (DependencyDescriptor descriptor: abstractionsWithDependencies){
+            ArchitecturalSmell detectedSmell = null;
+            if(isBorderlineHublike(descriptor)){
+                detectedSmell = makeHubLikeFrom(descriptor.getComponent(), SmellType.BORDERLINE_HUB_LIKE);
+                System.out.println("HBLK: "+descriptor.getComponent().getQualifiedName()+" FI:"+descriptor.getFanIn()+" FO:"+descriptor.getFanOut());
+            }
             if(hasHubLikeModularization(descriptor)) {
-                ArchitecturalSmell detectedSmell = makeHubLikeFrom(descriptor.getComponent());
+                detectedSmell = makeHubLikeFrom(descriptor.getComponent(), SmellType.HUB_LIKE_DEPENDENCY);
+            }
+            if(null != detectedSmell){
                 result.add(detectedSmell);
             }
         }
@@ -47,9 +54,13 @@ public class HubLikeDependencyDetector extends GraphBasedDetector {
         return descriptor.getFanIn() >= fanInThreshold && descriptor.getFanOut() >= fanOutThreshold;
     }
 
+    private boolean isBorderlineHublike(DependencyDescriptor descriptor) {
+        return descriptor.getFanIn() >= (fanInThreshold/2) && descriptor.getFanOut() >= (fanOutThreshold/2);
+    }
+
     @NotNull
-    private ArchitecturalSmell makeHubLikeFrom(Component abstraction) {
-        ArchitecturalSmell detectedSmell = new ArchitecturalSmell(SmellType.HUB_LIKE_DEPENDENCY);
+    private ArchitecturalSmell makeHubLikeFrom(Component abstraction, SmellType type) {
+        ArchitecturalSmell detectedSmell = new ArchitecturalSmell(type);
         detectedSmell.addAffectedComponent(abstraction);
         return detectedSmell;
     }

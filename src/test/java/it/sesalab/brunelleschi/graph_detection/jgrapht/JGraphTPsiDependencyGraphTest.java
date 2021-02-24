@@ -40,7 +40,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
-        List<List<Component>> cycles = tinyCycleGraph.getStronglyConnectedComponents();
+        List<List<Component>> cycles = tinyCycleGraph.getElementsInStronglyConnectedComponents();
         assertEquals(oracle, convertCycleListToSet(cycles));
     }
 
@@ -57,7 +57,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
-        List<List<Component>> cycles = tinyCycleGraph.getStronglyConnectedComponents();
+        List<List<Component>> cycles = tinyCycleGraph.getElementsInStronglyConnectedComponents();
         Set<Set<Component>> actual = convertCycleListToSet(cycles);
         assertEquals(oracle,actual);
     }
@@ -96,7 +96,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph tinyCycleGraph = factory.makeDependencyGraph();
 
-        List<List<Component>> detectedCycles = tinyCycleGraph.getStronglyConnectedComponents();
+        List<List<Component>> detectedCycles = tinyCycleGraph.getElementsInStronglyConnectedComponents();
         assertEquals(convertCycleListToSet(oracle), convertCycleListToSet(detectedCycles));
 
     }
@@ -107,7 +107,7 @@ public class JGraphTPsiDependencyGraphTest extends LightJavaCodeInsightFixtureTe
         DependencyGraphFactory factory = new JGraphTPsiClassDependencyGraphFactory(myFixture.getProject());
         DependencyGraph dependencyGraph = factory.makeDependencyGraph();
 
-        List<List<Component>> detectedCycles = dependencyGraph.getStronglyConnectedComponents();
+        List<List<Component>> detectedCycles = dependencyGraph.getElementsInStronglyConnectedComponents();
 
         int numberOfVertices = dependencyGraph.nOfVertices();
         int nOfVerticesInClique = detectedCycles.get(0).size();

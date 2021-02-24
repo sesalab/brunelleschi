@@ -38,7 +38,7 @@ public class JGraphTPsiPackageDependencyGraphFactory extends JGraphTPsiDependenc
                 }
             }
         }
-        return new JGraphTPsiDependencyGraph<>(true, graphBuilder.build());
+        return new JGraphTPsiDependencyGraph<>(true, graphBuilder.build(), currentProject.getName());
     }
 
     private boolean areClassesInTheSamePackage(PsiClass currentClass, PsiClass dependentClass) {
@@ -47,7 +47,7 @@ public class JGraphTPsiPackageDependencyGraphFactory extends JGraphTPsiDependenc
 
     private void makeEdgeBetween(PsiPackage currentPackage, PsiPackage dependentPackage) {
         LabeledEdge edge = new LabeledEdge(DEPENDENCY_LABEL);
-        graphBuilder.addEdge(dependentPackage,currentPackage,edge);
+        graphBuilder.addEdge(currentPackage, dependentPackage, edge);
     }
 
 }
