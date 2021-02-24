@@ -28,6 +28,8 @@ public class FindAllSmellAction extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
 
+        System.out.println("Start");
+
         ProgressManager.getInstance().runProcessWithProgressSynchronously(() -> {
 
             ProgressIndicator indicator = ProgressManager.getInstance().getProgressIndicator();
@@ -44,12 +46,12 @@ public class FindAllSmellAction extends AnAction {
                 results = interactor.execute();
             });
 
-            FindSmellPresenter presenter = configuration.getPresenter();
-            presenter.present(results);
-            smellFound = results.size();
 
         }, "Brunelleschi - Architectural Smell Detection", false, e.getProject());
 
-        Messages.showMessageDialog(e.getProject(), "Brunelleschi found "+smellFound+" smells", "ATTENTION! ", Messages.getInformationIcon());
+        FindSmellPresenter presenter = configuration.getPresenter();
+        presenter.present(results);
+        smellFound = results.size();
+
     }
 }
