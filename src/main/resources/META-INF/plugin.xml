@@ -24,9 +24,5 @@
                     description="EXPERIMENTAL">
             </action>
         </group>
-        <action id="it.selsalab.brunelleschi.application.actions"
-                class="it.sesalab.brunelleschi.application.actions.DependencyFindAction" text="FindDependencies">
-            <add-to-group group-id="AnalyzeActions" anchor="last"/>
-        </action>
     </actions>
 </idea-plugin>
